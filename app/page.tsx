@@ -57,6 +57,19 @@ function FunnelContent() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ step, session_id: sessionId.current }),
     }).catch(() => {});
+
+    const TRK_STEP_NAMES: Record<number, string> = {
+      1: "Landing Page",
+      2: "Location",
+      3: "Job Size",
+      4: "Contact Info",
+      5: "Booking",
+    };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    if (typeof window !== "undefined" && (window as any).TRK?.step) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (window as any).TRK.step(TRK_STEP_NAMES[step] ?? `Step ${step}`);
+    }
   }, [step]);
 
   return (

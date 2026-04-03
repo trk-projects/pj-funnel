@@ -22,6 +22,11 @@ export default function BookingPage() {
       ) {
         confirmFiredRef.current = true;
         setBookingConfirmed(true);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        if (typeof window !== "undefined" && (window as any).TRK?.booked) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (window as any).TRK.booked();
+        }
         fetch("/api/retell-confirm", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
