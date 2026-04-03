@@ -27,6 +27,13 @@ export default function ContactPage() {
     if (!validate()) return;
     setLoading(true);
     try {
+      if (typeof window !== "undefined" && (window as unknown as Record<string, unknown>).TRK) {
+        (window as unknown as Record<string, { capture: (p: Record<string, string>) => void }>).TRK.capture({
+          name: data.name,
+          phone: data.phone,
+          ...(data.email ? { email: data.email } : {}),
+        });
+      }
       const res = await fetch("/api/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
